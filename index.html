@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ToDoList</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="container">
+                <div class="wrapper-top">
+                    <h2>ToDos</h2>
+                    <div class="input-wrapper">
+                        <input type="text" class="new-task" />
+                        <button class="add">Add</button>
+                    </div>
+                    <ul class="tasks">
+                        <li class="task">
+                            <span>First</span>
+                            <button class="delete">X</button>
+                        </li>
+                        <li class="task">
+                            <span>Second</span>
+                            <button class="delete">X</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="wrapper-bottom">
+                    <div class="buttons">
+                        <a class="filter">All</a>
+                        <a class="filter">Completed</a>
+                        <a class="filter">In Progress</a>
+                    </div>
+                    <button class="clear">Clear</button>
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
