@@ -32,9 +32,9 @@ function renderTasks(arr) {
             deleteButton.classList.add('delete');
 
             //Обработчик не работает
-            deleteButton.addEventListener('click', () => {
+            /*deleteButton.addEventListener('click', () => {
                 console.log('delete button');
-            });
+            }); */
 
             li.appendChild(span);
             li.appendChild(deleteButton);
@@ -88,17 +88,17 @@ clearBtn.addEventListener('click', () => {
     renderTasks(tasksArr);
 });
 
-//изменение статуса задачи (работает для дефолтных элементов массива, после добавления элементов и после переключения на другой фильтр не работает)
-for (let task of tasks) {
-    task.addEventListener('click', () => {
-        console.log(task);
+//изменение статуса задачи (исправлено, работает и для новых задач)
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.task')) {
+        let task = e.target;
         task.classList.toggle('completed');
         const el = tasksArr.find(
             (el) => el.name === task.firstChild.textContent
         );
         el.isDone = !el.isDone;
-        console.log(el);
-    });
-}
+    }
+});
 
 //изменение стилей в фильтрах не работает
