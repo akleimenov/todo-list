@@ -24,32 +24,37 @@ function renderTasks(arr) {
         .map((task) => {
             const li = document.createElement('li');
             li.className = `task ${task.isDone ? 'completed' : ''}`;
-            const span = document.createElement('span');
-            span.innerHTML = task.name;
-
-
+            const div = document.createElement('div');
+            div.innerHTML = task.name;
 
             const deleteButton = document.createElement('button');
             deleteButton.innerHTML = 'X';
             deleteButton.classList.add('delete');
 
-            deleteButton.addEventListener('click', () => console.log('Hello'))
-            //Обработчик не работает
-            /*deleteButton.addEventListener('click', () => {
-                console.log('delete button');
-            }); */
+            deleteButton.addEventListener('click', () => {
+                const taskName = deleteButton.previousSibling.textContent;
+                tasksArr.splice(
+                    tasksArr.findIndex((el) => el.name === taskName),
+                    1
+                );
+                renderTasks(tasksArr);
+            });
 
-            li.appendChild(span);
+            li.appendChild(div);
             li.appendChild(deleteButton);
 
-            span.addEventListener('click', () => console.log("Clicked on span"))
+            div.addEventListener('click', (e) => {
+                let task = e.target.closest('.task');
+                task.classList.toggle('completed');
+                const el = tasksArr.find(
+                    (el) => el.name === task.firstChild.textContent
+                );
+                el.isDone = !el.isDone;
+            });
 
             tasksContainer.appendChild(li);
         })
         .join('');
-
-    // console.log(`html`, html)
-    // tasksContainer.insertAdjacentHTML('beforeend', html);
 }
 
 //рендер при загрузке страницы
@@ -95,19 +100,3 @@ clearBtn.addEventListener('click', () => {
     tasksArr.length = 0;
     renderTasks(tasksArr);
 });
-
-//изменение статуса задачи (исправлено, работает и для новых задач)
-
-// document.addEventListener('click', (e) => {
-//     console.log('nananan')
-//     if (e.target.matches('.task')) {
-//         let task = e.target;
-//         task.classList.toggle('completed');
-//         const el = tasksArr.find(
-//             (el) => el.name === task.firstChild.textContent
-//         );
-//         el.isDone = !el.isDone;
-//     }
-// });
-
-//изменение стилей в фильтрах не работает
