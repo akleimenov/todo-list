@@ -27,10 +27,13 @@ function renderTasks(arr) {
             const span = document.createElement('span');
             span.innerHTML = task.name;
 
+
+
             const deleteButton = document.createElement('button');
             deleteButton.innerHTML = 'X';
             deleteButton.classList.add('delete');
 
+            deleteButton.addEventListener('click', () => console.log('Hello'))
             //Обработчик не работает
             /*deleteButton.addEventListener('click', () => {
                 console.log('delete button');
@@ -38,10 +41,15 @@ function renderTasks(arr) {
 
             li.appendChild(span);
             li.appendChild(deleteButton);
-            return li.outerHTML; //inner выводит span + button
+
+            span.addEventListener('click', () => console.log("Clicked on span"))
+
+            tasksContainer.appendChild(li);
         })
         .join('');
-    tasksContainer.insertAdjacentHTML('beforeend', html);
+
+    // console.log(`html`, html)
+    // tasksContainer.insertAdjacentHTML('beforeend', html);
 }
 
 //рендер при загрузке страницы
@@ -90,15 +98,16 @@ clearBtn.addEventListener('click', () => {
 
 //изменение статуса задачи (исправлено, работает и для новых задач)
 
-document.addEventListener('click', (e) => {
-    if (e.target.matches('.task')) {
-        let task = e.target;
-        task.classList.toggle('completed');
-        const el = tasksArr.find(
-            (el) => el.name === task.firstChild.textContent
-        );
-        el.isDone = !el.isDone;
-    }
-});
+// document.addEventListener('click', (e) => {
+//     console.log('nananan')
+//     if (e.target.matches('.task')) {
+//         let task = e.target;
+//         task.classList.toggle('completed');
+//         const el = tasksArr.find(
+//             (el) => el.name === task.firstChild.textContent
+//         );
+//         el.isDone = !el.isDone;
+//     }
+// });
 
 //изменение стилей в фильтрах не работает
