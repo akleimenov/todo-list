@@ -97,6 +97,11 @@ ul {
     margin-right: 10px;
 }
 
+.filter {
+    color: #000;
+    border: none;
+    outline: none;
+}
 .filter:hover,
 .filter:active {
     border-top: 1px solid #2727b8;

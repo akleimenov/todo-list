@@ -3,82 +3,102 @@ const addBtn = document.querySelector('.add');
 const tasksContainer = document.querySelector('.tasks');
 const tasks = document.getElementsByClassName('task');
 const clearBtn = document.querySelector('.clear');
-const deleteBtns = document.getElementsByClassName('delete');
+const completedBtn = document.querySelector('.completed');
+const allBtn = document.querySelector('.all');
+const progressBtn = document.querySelector('.progress');
 
-const tasksArr = ['First1', 'Second1'];
-
-const arr = [
+const tasksArr = [
     {
         name: 'First',
         isDone: false
     },
     {
         name: 'Second',
-        isDone: true
+        isDone: false
     }
-]
+];
 
 function renderTasks(arr) {
     tasksContainer.innerHTML = '';
     const html = arr
         .map((task) => {
-            const li = document.createElement('li')
-            li.className = 'task'
+            const li = document.createElement('li');
+            li.className = `task ${task.isDone ? 'completed' : ''}`;
+            const span = document.createElement('span');
+            span.innerHTML = task.name;
 
-            const span = document.createElement('span')
-            span.innerHTML = task
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'X';
+            deleteButton.classList.add('delete');
 
-            const deleteButton = document.createElement('button')
+            //Обработчик не работает
+            deleteButton.addEventListener('click', () => {
+                console.log('delete button');
+            });
 
-            deleteButton.addEventListener('click',() => {
-                tasksArr = tasksArr.filter((item) => item !== task)
-                console.log(`tasksArr`, tasksArr)
-            })
-
-            li.appendChild(span)
-            li.appendChild(deleteButton)
-            console.log(`li`, li)
-
-            return li.innerHTML
-
-            
-
-
-    //         return `<li class="task">
-    //     <span>${task}</span>
-    //     <button class="delete">X</button>
-    // </li>`;
+            li.appendChild(span);
+            li.appendChild(deleteButton);
+            return li.outerHTML; //inner выводит span + button
         })
         .join('');
     tasksContainer.insertAdjacentHTML('beforeend', html);
 }
 
-renderTasks(tasksArr)
+//рендер при загрузке страницы
 
+renderTasks(tasksArr);
+
+//добавление элементов (работает)
 addBtn.addEventListener('click', () => {
     if (newTask.value) {
-        tasksArr.push(newTask.value);
+        tasksArr.push({
+            name: newTask.value,
+            isDone: false
+        });
         newTask.value = '';
         renderTasks(tasksArr);
     }
 });
 
-console.log(`deleteBtns`, deleteBtns)
+//фильтр Completed (работает)
+completedBtn.addEventListener('click', () => {
+    const filtered = tasksArr.filter((el) => el.isDone === true);
+    filtered.length > 0
+        ? renderTasks(filtered)
+        : (tasksContainer.innerHTML = 'No items found');
+});
 
-for (let btn of deleteBtns) {
-    btn.addEventListener('click', () => {
-        btn.closest('.task').remove();
-    });
-}
+//фильтр All (работает)
+allBtn.addEventListener('click', () => {
+    renderTasks(tasksArr);
+});
 
+//фильтр inProgress (работает)
+progressBtn.addEventListener('click', () => {
+    const filtered = tasksArr.filter((task) => task.isDone === false);
+    filtered.length > 0
+        ? renderTasks(filtered)
+        : (tasksContainer.innerHTML = 'No items found');
+});
+
+//кнопка clear (работает)
 clearBtn.addEventListener('click', () => {
     //tasksContainer.innerHTML = ''
     tasksArr.length = 0;
     renderTasks(tasksArr);
 });
 
+//изменение статуса задачи (работает для дефолтных элементов массива, после добавления элементов и после переключения на другой фильтр не работает)
 for (let task of tasks) {
     task.addEventListener('click', () => {
+        console.log(task);
         task.classList.toggle('completed');
+        const el = tasksArr.find(
+            (el) => el.name === task.firstChild.textContent
+        );
+        el.isDone = !el.isDone;
+        console.log(el);
     });
 }
+
+//изменение стилей в фильтрах не работает
